@@ -36,8 +36,8 @@ class App extends React.Component {
                <Stack.Navigator screenOptions={{
                   headerShown: false
                }}>
-                  <Stack.Screen name="Quiz" component={Quiz} />
                   <Stack.Screen name="Result" component={Result} />
+                  <Stack.Screen name="Quiz" component={Quiz} />
                </Stack.Navigator>
             </NavigationContainer>
          </Provider>
