@@ -5,9 +5,8 @@ const myData = (state = {}, action) => {
    switch (action.type) {
       case 'TEST':
          console.log('in the test case')
-         return {
+         return {}
 
-         }
       default:
          return state;
    }

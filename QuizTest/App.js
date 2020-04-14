@@ -33,7 +33,9 @@ class App extends React.Component {
       return (
          <Provider store={store}>
             <NavigationContainer>
-               <Stack.Navigator>
+               <Stack.Navigator screenOptions={{
+                  headerShown: false
+               }}>
                   <Stack.Screen name="Quiz" component={Quiz} />
                   <Stack.Screen name="Result" component={Result} />
                </Stack.Navigator>
