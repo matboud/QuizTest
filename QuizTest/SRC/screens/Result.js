@@ -34,8 +34,6 @@ class Result extends React.Component {
    }
 
    render() {
-      const total = this.props.total;
-
       const headerHeight = this.state.scrollY.interpolate({
          inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
          outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],

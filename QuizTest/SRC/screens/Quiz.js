@@ -2,13 +2,12 @@ import React from 'react';
 import {
    View,
    Text,
-   Button,
    SafeAreaView,
    StyleSheet,
-   ScrollView,
 
 } from 'react-native';
 import Item from '../components/Item';
+import {data} from '../config/data';
 
 export default class Quiz extends React.Component {
    constructor(props) {
