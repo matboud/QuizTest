@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-   SafeAreaView,
    StyleSheet,
    ScrollView,
    View,
@@ -21,7 +20,6 @@ const LIVE_CARD_TOP = 110;
 const LIVE_CARD_TOP_MIN = 0;
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 class Result extends React.Component {
    constructor(props) {
       super(props);
@@ -32,15 +30,6 @@ class Result extends React.Component {
    }
 
    componentDidMount() {
-      // question: this.props.currentQuestion.question,
-      //      answer: answer,
-      //      right_answer: this.props.currentQuestion.right_answer,
-      //      data: this.props.data,
-      //      counter: this.props.counter
-
-      // const {question, right_answer, data, counter } = route.params;
-
-      // this.props.clickedQuestion(this.props.currentQuestion.question, answer, this.props.currentQuestion.right_answer, this.props.data, this.props.counter)
       this.props.totalResult(this.props.prediction)
    }
 
@@ -74,8 +63,6 @@ class Result extends React.Component {
          outputRange: [-70, 0, 0],
          extrapolate: 'clamp'
       })
-
-
 
       return (
          <View style={styles.container}>
@@ -122,7 +109,6 @@ class Result extends React.Component {
                   flex: 1,
                }}
             >
-
                <Animated.View style={{
                   paddingHorizontal: 15,
                   paddingVertical: 15,
@@ -143,9 +129,7 @@ class Result extends React.Component {
                {
                   <View style={{ marginTop: 30, paddingHorizontal: 20 }}>
                      {
-
                         this.props.prediction.map((prediction) => (
-                           console.log('hello', prediction),
 
                            <View style={{ paddingVertical: 5 }}>
                               {
@@ -154,17 +138,12 @@ class Result extends React.Component {
                                  )
                                     : <Item answer={prediction.choosen_answer} result wrong={prediction.right_answer} />
                               }
-
                            </View>
                         ))
                      }
-
-
                   </View>
                }
-               <View style={{ height: 30 }}>
-               </View>
-
+               <View style={{ height: 30 }}/>
             </ScrollView>
          </View>
       );

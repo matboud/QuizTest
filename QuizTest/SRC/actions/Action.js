@@ -1,13 +1,5 @@
-export const Test = () => {
-   console.log('inside action')
-   return {
-      type: 'TEST',
-   }
-};
-
 export const getData = (data) => {
    const currentQuestion = data[0]
-   console.log('get data action');
    return {
       type: 'STORE_DATA',
       data,
@@ -22,7 +14,6 @@ export const clickedQuestion = (question, choosen_answer, right_answer, data, co
       right_answer: right_answer
    }
    const currentQuestion = data[counter]
-
    return {
       type: 'CLICKED_QST',
       prediction,
