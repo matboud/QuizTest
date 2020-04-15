@@ -11,7 +11,6 @@ import Item from '../components/Item';
 import { connect } from 'react-redux';
 import { totalResult, clickedQuestion } from '../actions/Action';
 
-
 const HEADER_MAX_HEIGHT = 220;
 const HEADER_MIN_HEIGHT = 120;
 const LIVE_CARD_HEIGHT = 210;
