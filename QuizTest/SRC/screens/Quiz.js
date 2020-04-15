@@ -4,12 +4,16 @@ import {
    Text,
    SafeAreaView,
    StyleSheet,
+   TouchableOpacity,
 
 } from 'react-native';
 import Item from '../components/Item';
-import {data} from '../config/data';
+import { data } from '../config/data';
+import { connect } from 'react-redux';
 
-export default class Quiz extends React.Component {
+import { Test, clickedQuestion } from '../actions/Action';
+
+class Quiz extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -17,38 +21,40 @@ export default class Quiz extends React.Component {
       }
    }
    render() {
+      console.log('Quiz> prediction', this.props.prediction)
       return (
          // eslint-disable-next-line react-native/no-inline-styles
          <SafeAreaView style={styles.safeContainer}>
-               <View style={styles.header}>
-                  <View style={styles.containerProgress}>
-                     <View style={[styles.progress, { width: `${this.state.progressBar}%` }]}>
-                        <Text style={{ color: 'white', fontSize: 20, }}>{this.state.progressBar}%</Text>
+
+            <View style={styles.header}>
+               <View style={styles.containerProgress}>
+                  <View style={[styles.progress, { width: `${this.state.progressBar}%` }]}>
+                     <Text style={{ color: 'white', fontSize: 20, }}>{this.state.progressBar}%</Text>
+                  </View>
+               </View>
+               <View style={{ marginTop: 30 }}>
+                  <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#8d97bf' }}>Question {this.props.counter}<Text style={{ fontSize: 18, fontWeight: '100' }}>/{this.props.data.length}</Text></Text>
+               </View>
+
+               <View style={styles.qustion}>
+                  <Text style={{ color: '#ecf0f1', fontSize: 24 }}>{this.props.currentQuestion.question}</Text>
+               </View>
+            </View>
+            <View style={styles.body}>
+               {
+                  this.props.currentQuestion.answers.map((answer) => (
+                     <View style={{ paddingVertical: 5 }}>
+                        <TouchableOpacity onPress={() => {
+                           this.props.counter === this.props.data.length ?
+                              this.props.navigation.navigate('Result') :
+                              this.props.clickedQuestion(this.props.currentQuestion.question, answer, this.props.currentQuestion.right_answer, this.props.data, this.props.counter)
+                        }}>
+                           <Item answer={answer} />
+                        </TouchableOpacity>
                      </View>
-                  </View>
-                  <View style={{ marginTop: 30 }}>
-                     <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#8d97bf' }}>Question 1<Text style={{ fontSize: 18, fontWeight: '100' }}>/10</Text></Text>
-                  </View>
-
-                  <View style={styles.qustion}>
-                     <Text style={{ color: '#ecf0f1', fontSize: 24 }}>What attraction in Montreal is one of the largest in the World?</Text>
-                  </View>
-               </View>
-
-               <View style={styles.body}>
-                  <View style={{ paddingVertical: 5 }}>
-                     <Item selected />
-                  </View>
-                  <View style={{ paddingVertical: 5 }}>
-                     <Item />
-                  </View>
-                  <View style={{ paddingVertical: 5 }}>
-                     <Item />
-                  </View>
-                  <View style={{ paddingVertical: 5 }}>
-                     <Item />
-                  </View>
-               </View>
+                  ))
+               }
+            </View>
          </SafeAreaView>
       );
    }
@@ -92,6 +98,18 @@ const styles = StyleSheet.create({
    }
 
 })
+
+const mapStateToProps = (state) => ({
+   data: state.data,
+   currentQuestion: state.currentQuestion,
+   counter: state.counter,
+   prediction: state.prediction,
+})
+
+export default connect(mapStateToProps, {
+   Test,
+   clickedQuestion
+})(Quiz)
 
 
 

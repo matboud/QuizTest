@@ -26,11 +26,10 @@ export default class Item extends React.Component {
                      : '#204768'
          }}>
             <View style={{ flex: 5, justifyContent: 'center' }}>
-               <Text style={{ color: props.result ? '#252d4a' : 'white', fontSize: 20 }}>The Botanical Grdens</Text>
+               <Text style={{ color: props.result ? '#252d4a' : 'white', fontSize: 20 }}>{this.props.answer}</Text>
                {
                   this.props.wrong ? <Text style={{ color: '#2a8bed' }} >testing right answer</Text> : <View />
                }
-
             </View>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
                <View style={{
