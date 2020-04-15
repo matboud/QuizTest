@@ -9,8 +9,8 @@ import {
    Animated
 } from 'react-native';
 import Item from '../components/Item';
-
-
+import { connect } from 'react-redux';
+import { totalResult, clickedQuestion } from '../actions/Action';
 
 
 const HEADER_MAX_HEIGHT = 220;
@@ -26,11 +26,22 @@ class Result extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
-         total: {
-
-         },
-         scrollY: new Animated.Value(0)
+         scrollY: new Animated.Value(0),
+         right: 0
       }
+   }
+
+   componentDidMount() {
+      // question: this.props.currentQuestion.question,
+      //      answer: answer,
+      //      right_answer: this.props.currentQuestion.right_answer,
+      //      data: this.props.data,
+      //      counter: this.props.counter
+
+      // const {question, right_answer, data, counter } = route.params;
+
+      // this.props.clickedQuestion(this.props.currentQuestion.question, answer, this.props.currentQuestion.right_answer, this.props.data, this.props.counter)
+      this.props.totalResult(this.props.prediction)
    }
 
    render() {
@@ -87,11 +98,11 @@ class Result extends React.Component {
                   <Animated.View style={{ position: 'absolute', bottom: headerTitleBottom, flexDirection: 'row', }}>
                      <View style={{ flexDirection: 'row', width: '100%', height: HEADER_MIN_HEIGHT, alignItems: 'center', justifyContent: 'space-around' }}>
                         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                           <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#ecf0f1' }}>9/10</Text>
+                           <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#ecf0f1' }}>{this.props.totalRight}</Text>
                            <Text style={{ fontSize: 17, color: '#ecf0f1' }}>Score</Text>
                         </View>
                         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                           <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#ecf0f1' }}>4</Text>
+                           <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#ecf0f1' }}>{this.props.prediction.length - this.props.totalRight}</Text>
                            <Text style={{ fontSize: 17, color: '#ecf0f1' }}>Wrong</Text>
                         </View>
                      </View>
@@ -122,49 +133,36 @@ class Result extends React.Component {
                      <Animated.View style={{
                         paddingTop: liveCardHeight
                      }}>
-                        <View style={{ height: 200, backgroundColor: 40 > 30 ? '#ff415a' : '#15da72', borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ height: 200, backgroundColor: this.props.percentage < 50 ? '#ff415a' : '#15da72', borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
                            <Text style={{ fontSize: 35, color: 'white' }}>Your Score:</Text>
-                           <Text style={{ fontSize: 40, fontWeight: 'bold', color: 'white' }}>47</Text>
+                           <Text style={{ fontSize: 40, fontWeight: 'bold', color: 'white' }}>{parseInt(this.props.percentage)}%</Text>
                         </View>
                      </Animated.View>
                   }
                </Animated.View>
                {
                   <View style={{ marginTop: 30, paddingHorizontal: 20 }}>
-                     <View style={{ paddingVertical: 5 }}>
-                        <Item result right />
-                     </View>
-                     <View style={{ paddingVertical: 5 }}>
-                        <Item result right />
-                     </View>
-                     <View style={{ paddingVertical: 5 }}>
-                        <Item result wrong />
-                     </View>
-                     <View style={{ paddingVertical: 5 }}>
-                        <Item result wrong />
-                     </View>
-                     <View style={{ paddingVertical: 5 }}>
-                        <Item result wrong />
-                     </View>
-                     <View style={{ paddingVertical: 5 }}>
-                        <Item result right />
-                     </View>
-                     <View style={{ paddingVertical: 5 }}>
-                        <Item result right />
-                     </View>
-                     <View style={{ paddingVertical: 5 }}>
-                        <Item result wrong />
-                     </View>
-                     <View style={{ paddingVertical: 5 }}>
-                        <Item result right />
-                     </View>
-                     <View style={{ paddingVertical: 5 }}>
-                        <Item result right />
-                     </View>
+                     {
+
+                        this.props.prediction.map((prediction) => (
+                           console.log('hello', prediction),
+
+                           <View style={{ paddingVertical: 5 }}>
+                              {
+                                 prediction.choosen_answer === prediction.right_answer ? (
+                                    <Item answer={prediction.choosen_answer} result right />
+                                 )
+                                    : <Item answer={prediction.choosen_answer} result wrong={prediction.right_answer} />
+                              }
+
+                           </View>
+                        ))
+                     }
+
+
                   </View>
                }
                <View style={{ height: 30 }}>
-
                </View>
 
             </ScrollView>
@@ -196,5 +194,14 @@ const styles = StyleSheet.create({
    }
 })
 
+const mapStateToProps = (state) => ({
+   data: state.data,
+   prediction: state.prediction,
+   percentage: state.percentage,
+   totalRight: state.totalRight
+})
 
-export default Result;
+export default connect(mapStateToProps, {
+   totalResult,
+   clickedQuestion
+})(Result);

@@ -16,7 +16,6 @@ export const getData = (data) => {
 };
 
 export const clickedQuestion = (question, choosen_answer, right_answer, data, counter) => {
-
    const prediction = {
       question: question,
       choosen_answer: choosen_answer,
@@ -32,3 +31,17 @@ export const clickedQuestion = (question, choosen_answer, right_answer, data, co
    }
 }
 
+export const totalResult = (predictions) => {
+   let totalRight = 0
+   predictions.map((answer) => {
+      if (answer.choosen_answer === answer.right_answer) {
+         totalRight += 1;
+      }
+   })
+
+   return {
+       type: 'TOTAL_RESULT',
+       percentageTotal: totalRight/predictions.length * 100,
+       totalRight: totalRight
+   }
+}

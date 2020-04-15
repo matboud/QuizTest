@@ -28,7 +28,7 @@ class App extends React.Component {
                <Stack.Navigator screenOptions={{
                   headerShown: false
                }}>
-                  <Stack.Screen store={store} name="Quiz" component={Quiz} />
+                  <Stack.Screen name="Quiz" component={Quiz} />
                   <Stack.Screen name="Result" component={Result} />
                </Stack.Navigator>
             </NavigationContainer>

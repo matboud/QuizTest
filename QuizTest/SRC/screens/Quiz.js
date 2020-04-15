@@ -11,7 +11,7 @@ import Item from '../components/Item';
 import { data } from '../config/data';
 import { connect } from 'react-redux';
 
-import { Test, clickedQuestion } from '../actions/Action';
+import { Test, clickedQuestion, } from '../actions/Action';
 
 class Quiz extends React.Component {
    constructor(props) {
@@ -20,6 +20,27 @@ class Quiz extends React.Component {
          progressBar: 40,
       }
    }
+
+   handleMoves = (answer) => {
+
+      if (this.props.counter === this.props.data.length) {
+         // this.props.navigation.navigate('Result', {
+         //   question: this.props.currentQuestion.question,
+         //   answer: answer,
+         //   right_answer: this.props.currentQuestion.right_answer,
+         //   data: this.props.data,
+         //   counter: this.props.counter
+         // }) 
+         // console.log('================',this.props.counter, this.props.data.length + '//' + this.props.currentQuestion.question, answer, this.props.currentQuestion.right_answer, this.props.counter )
+
+
+         this.props.clickedQuestion(this.props.currentQuestion.question, answer, this.props.currentQuestion.right_answer, this.props.data, this.props.counter - 1);
+         this.props.navigation.navigate('Result');
+      } else {
+         this.props.clickedQuestion(this.props.currentQuestion.question, answer, this.props.currentQuestion.right_answer, this.props.data, this.props.counter)
+      }
+   }
+
    render() {
       console.log('Quiz> prediction', this.props.prediction)
       return (
@@ -37,7 +58,9 @@ class Quiz extends React.Component {
                </View>
 
                <View style={styles.qustion}>
-                  <Text style={{ color: '#ecf0f1', fontSize: 24 }}>{this.props.currentQuestion.question}</Text>
+                  <Text style={{ color: '#ecf0f1', fontSize: 24 }}>{
+                     this.props.currentQuestion.question
+                  }</Text>
                </View>
             </View>
             <View style={styles.body}>
@@ -45,10 +68,10 @@ class Quiz extends React.Component {
                   this.props.currentQuestion.answers.map((answer) => (
                      <View style={{ paddingVertical: 5 }}>
                         <TouchableOpacity onPress={() => {
-                           this.props.counter === this.props.data.length ?
-                              this.props.navigation.navigate('Result') :
-                              this.props.clickedQuestion(this.props.currentQuestion.question, answer, this.props.currentQuestion.right_answer, this.props.data, this.props.counter)
-                        }}>
+                           this.handleMoves(answer);
+
+                        }
+                        }>
                            <Item answer={answer} />
                         </TouchableOpacity>
                      </View>
@@ -108,7 +131,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
    Test,
-   clickedQuestion
+   clickedQuestion,
 })(Quiz)
 
 
